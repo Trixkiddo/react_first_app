@@ -1,0 +1,42 @@
+a {
+  text-decoration: none;
+  padding: 10px;
+}
+
+li {
+  color: green;
+  transition: 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    color: blue;
+  }
+}
+
+.nav-active {
+  position: relative;
+
+  &::after {
+    content: "";
+    height: 4px;
+    width: 0;
+    background: blue;
+    position: absolute;
+    border-radius: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-animation: anim 0.3 ease forwards;
+    animation: anim 0.6 ease forwards;
+
+    @-webkit-keyframes anim {
+      to {
+        width: 100%;
+      }
+    }
+    @keyframes anim {
+      to {
+        width: 100%;
+      }
+    }
+  }
+}
