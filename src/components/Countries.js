@@ -31,23 +31,42 @@ const Countries = () => {
             setRangeValue(event.target.value)
           } /* évenement qui récupère la valeur de l'input filtre */
         />
-        {radios.map((continent) => ( /* input de type radio pour filter par continent */
-          <li>
-            <input
-            type="radio"
-            id={continent}
-            name="continentRadio"
-            onChange={(event) => setSelectedRadio(event.target.id)} /* element cliqué : on récupère l'id du continent*/
-            />
-            <label htmlFor={continent}>{continent}</label> {/* htmlFor = id de l'élément, équivalent du for */}
-          </li>
-        ))};
+        {radios.map(
+          (continent /* input de type radio pour filter par continent */) => (
+            <li>
+              <input
+                type="radio"
+                id={continent}
+                name="continentRadio"
+                checked={continent === selectedRadio} // pour décocher si rien n'est sélectionné
+                onChange={(event) =>
+                  setSelectedRadio(event.target.id)
+                } /* element cliqué : on récupère l'id du continent*/
+              />
+              <label htmlFor={continent}>{continent}</label>{" "}
+              {/* htmlFor = id de l'élément, équivalent du for */}
+            </li>
+          )
+        )}
       </ul>
+
+      {/* si selectedRadio est true (si on a sélectionné un input radio) : afficher btn, sinon reset la recherche et le btn */}
+      {selectedRadio && (
+        <button onClick={(event) => setSelectedRadio("")}>
+          Annuler la recherche
+        </button>
+      )}
+
       <ul>
-        {data // 1/ on filtre (.filter), 2/ Si correspondance, on coupe (.slice), 3/ idem, on affiche (.map)
+        {data // 1/ on filtre, 2/ on trie, 3/ on coupe, 4/ on affiche
           .filter((country) => country.continents[0].includes(selectedRadio)) // accéder à l'élement zéro de continents (qui renvoie un array) par son index et lui demander s'il correspond à l'input user
+          .sort((a, b) => b.population - a.population) // trie par densité de population
           .slice(0, rangeValue) // entre 0 et le nombre donné de pays dans l'input
-          .map((country,index) => (  // on itére
+          .map(
+            (
+              country,
+              index // on itére
+            ) => (
               <Card
                 key={index}
                 country={country}
